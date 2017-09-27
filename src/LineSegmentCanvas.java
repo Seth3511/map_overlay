@@ -25,12 +25,13 @@ public class LineSegmentCanvas extends JApplet
         Graphics2D g2 = (Graphics2D) g;
         super.paint(g);
 
-        for(int i=0;i<points.size();i++)
-        {
-            Point point=(Point)points.get(i);
-            Point2D.Double p = new Point2D.Double((point.x*scale+10), (yMax-(point.y*scale))-10);
-            g2.fill(new Ellipse2D.Double(p.x-3,p.y-3,7,7));
-        }
+        if(points!=null)
+            for(int i=0;i<points.size();i++)
+            {
+                Point point=(Point)points.get(i);
+                Point2D.Double p = new Point2D.Double((point.x*scale+10), (yMax-(point.y*scale))-10);
+                g2.fill(new Ellipse2D.Double(p.x-3,p.y-3,7,7));
+            }
 
         for(int i=0;i<lines.size();i++)
         {

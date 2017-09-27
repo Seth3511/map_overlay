@@ -5,12 +5,18 @@ import java.util.ArrayList;
 
 public class MapOverlayFinder
 {
-    EdgeList s1;
-    EdgeList s2;
-
+    private EdgeList s1;
+    private EdgeList s2;
+    private ArrayList<Edge> list;
+    private double xMax;
+    private double yMax;
+    
     public MapOverlayFinder(String filename)throws IOException
     {
-        ArrayList<Edge> list =new ArrayList<>();
+        xMax=0;
+        yMax=0;
+        
+        list =new ArrayList<>();
         String delimiter=",";
         String line="";
         BufferedReader F=new BufferedReader(new FileReader(filename));
@@ -30,6 +36,15 @@ public class MapOverlayFinder
                     row[5],row[6],row[7]);
 
             list.add(edge);
+            
+            if(Double.parseDouble(row[1])>xMax)
+               xMax=Double.parseDouble(row[1]);
+            if(Double.parseDouble(row[3])>xMax)
+               xMax=Double.parseDouble(row[3]);
+            if(Double.parseDouble(row[2])>yMax)
+               yMax=Double.parseDouble(row[2]);
+            if(Double.parseDouble(row[4])>yMax)
+               yMax=Double.parseDouble(row[4]);
         }
         F.close();
 
@@ -39,16 +54,21 @@ public class MapOverlayFinder
 
     public ArrayList<LineSegment> print()
     {
-        Edge[] elist=s1.toArray();
+        /*Edge[] elist=s1.toArray();
         ArrayList<LineSegment> list=new ArrayList<>();
 
         for(int i=0;i<elist.length;i++)
             if(elist[i]!=null)
                 list.add(elist[i].line);
 
-        return list;
+        */
+        ArrayList<LineSegment> lineList=new ArrayList<>();
+        for(int i=0;i<list.size();i++)
+            lineList.add(list.get(i).line);
+        
+        return lineList;
     }
 
-    public double getXMax(){return 10;}
-    public double getYMax(){return 10;}
+    public double getXMax(){return xMax;}
+    public double getYMax(){return yMax;}
 }
