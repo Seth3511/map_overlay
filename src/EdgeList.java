@@ -1,41 +1,43 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.HashMap;
 public class EdgeList
 {
-    protected Edge head;
-    protected int size;
+    private ArrayList<LinkedList<Edge>> arrayList;
+    private HashMap<String,Edge> hMap;
 
-    public EdgeList(Edge [] list)
+    public EdgeList(ArrayList<Edge> list, HashMap<String,Edge> hMap)
     {
-        size=list.length;
-        head=list [0];
-        for(int i=0;i<list.length-1;i++)
-            for(int j=i+1;j<list.length;j++)
+        this.hMap=hMap;
+        arrayList=new ArrayList<>();
+        for(int i=0;i<list.size();i++)
+            if(list.get(i).sequence==null)
             {
-                if(list[i].nextS.equals(list[j].name))
-                    list[i].next=list[j];
-                if(list[i].prevS.equals(list[j].name))
-                    list[i].prev=list[j];
-                if(list[j].nextS.equals(list[i].name))
-                    list[j].next=list[i];
-                if(list[j].prevS.equals(list[i].name))
-                    list[j].prev=list[i];
-                if(list[i].twinS.equals(list[j].name))
-                    list[i].twin=list[j];
-                if(list[j].twinS.equals(list[i].name))
-                    list[j].twin=list[i];
+                list.get(i).twin=hMap.get(list.get(i).twinS);
+                list.get(i).line=new LineSegment(list.get(i).origin,list.get(i).twin.origin);
+
+                LinkedList<Edge> sequence=new LinkedList<>();
+                list.get(i).sequence=sequence;
+                sequence.add(list.get(i));
+                Edge p=list.get(i);
+
+                do{
+                    p=hMap.get(p.next);
+                    p.sequence=sequence;
+                    sequence.add(p);
+                }while(p!=sequence.peek());
+
+                arrayList.add(sequence);
             }
     }
 
-    public Edge[] toArray()
+    public ArrayList<Edge> toArray()
     {
-        Edge p=head;
-        Edge[] rtn=new Edge[size];
-        int i=0;
-        do{
-            rtn[i]=p;
-            i++;
-            p=p.next;
-        }while(p!=head);
+        ArrayList<Edge> list=new ArrayList<>();
+        for(int i=0;i<arrayList.size();i++)
+            for(int j=0;j<arrayList.get(i).size();j++)
+                list.add(arrayList.get(i).get(j));
 
-        return rtn;
+        return list;
     }
 }

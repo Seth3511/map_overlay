@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapOverlayFinder
 {
@@ -15,7 +16,8 @@ public class MapOverlayFinder
     {
         xMax=0;
         yMax=0;
-        
+
+        HashMap<String,Edge> hMap=new HashMap<>();
         list =new ArrayList<>();
         String delimiter=",";
         String line="";
@@ -26,46 +28,36 @@ public class MapOverlayFinder
         {
             String [] row=line.split(delimiter);
 
-            for(int i=0;i<row.length;i++)
-                System.out.println(row[i]);
-
             Edge edge=new Edge(row[0],
-                    new LineSegment(
-                            new Point(Double.parseDouble(row[1]),Double.parseDouble(row[2])),
-                            new Point(Double.parseDouble(row[3]),Double.parseDouble(row[4]))),
-                    row[5],row[6],row[7]);
+                    new Point(Double.parseDouble(row[1]),Double.parseDouble(row[2])),
+                    row[3],row[4],row[5]);
 
             list.add(edge);
+            hMap.put(edge.name,edge);
             
             if(Double.parseDouble(row[1])>xMax)
                xMax=Double.parseDouble(row[1]);
-            if(Double.parseDouble(row[3])>xMax)
-               xMax=Double.parseDouble(row[3]);
             if(Double.parseDouble(row[2])>yMax)
                yMax=Double.parseDouble(row[2]);
-            if(Double.parseDouble(row[4])>yMax)
-               yMax=Double.parseDouble(row[4]);
         }
         F.close();
 
         list.trimToSize();
-        s1=new EdgeList(list.toArray(new Edge[list.size()]));
+        s1=new EdgeList(list,hMap);
     }
 
     public ArrayList<LineSegment> print()
     {
-        /*Edge[] elist=s1.toArray();
-        ArrayList<LineSegment> list=new ArrayList<>();
-
-        for(int i=0;i<elist.length;i++)
-            if(elist[i]!=null)
-                list.add(elist[i].line);
-
-        */
         ArrayList<LineSegment> lineList=new ArrayList<>();
+        /*ArrayList<Edge> edgeArrayList=s1.toArray();
+        for(int i=0;i<edgeArrayList.size();i++)
+            lineList.add(edgeArrayList.get(i).line);
+
+        return lineList;*/
+
         for(int i=0;i<list.size();i++)
             lineList.add(list.get(i).line);
-        
+
         return lineList;
     }
 

@@ -1,20 +1,22 @@
+import java.util.LinkedList;
+
 public class Edge
 {
     protected LineSegment line;
+    protected Point origin;
     protected String name;
-    protected String nextS;
-    protected String prevS;
+    protected String next;
+    protected String prev;
     protected String twinS;
     protected Edge twin;
-    protected Edge next;
-    protected Edge prev;
+    protected LinkedList<Edge> sequence;
 
-    public Edge(String name,LineSegment line, String nextS, String prevS,String twinS)
+    public Edge(String name,Point origin, String next, String prev,String twinS)
     {
         this.name=name;
-        this.line=line;
-        this.nextS=nextS;
-        this.prevS=prevS;
+        this.origin=origin;
+        this.next=next;
+        this.prev=prev;
         this.twinS=twinS;
     }
 
