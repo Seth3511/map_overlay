@@ -9,10 +9,12 @@ public class Driver
     public static void main(String [] args)throws IOException
     {
         Scanner kb=new Scanner(System.in);
-        System.out.println("Name of file to scan:");
-        String filename=kb.nextLine();
+        System.out.println("Name of 1st file to scan:");
+        String filename1=kb.nextLine();
+        System.out.println("Name of 2nd file to scan:");
+        String filename2=kb.nextLine();
 
-        MapOverlayFinder finder=new MapOverlayFinder(filename);
+        MapOverlayFinder finder=new MapOverlayFinder(filename1,filename2);
         ArrayList<LineSegment> list=finder.print();
 
         System.out.print("Enter scale factor: ");

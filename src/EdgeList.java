@@ -3,8 +3,8 @@ import java.util.LinkedList;
 import java.util.HashMap;
 public class EdgeList
 {
-    private ArrayList<LinkedList<Edge>> arrayList;
-    private HashMap<String,Edge> hMap;
+    protected ArrayList<LinkedList<Edge>> arrayList;
+    protected HashMap<String,Edge> hMap;
 
     public EdgeList(ArrayList<Edge> list, HashMap<String,Edge> hMap)
     {
@@ -13,19 +13,16 @@ public class EdgeList
         for(int i=0;i<list.size();i++)
             if(list.get(i).sequence==null)
             {
-                list.get(i).twin=hMap.get(list.get(i).twinS);
-                list.get(i).line=new LineSegment(list.get(i).origin,list.get(i).twin.origin);
-
                 LinkedList<Edge> sequence=new LinkedList<>();
-                list.get(i).sequence=sequence;
-                sequence.add(list.get(i));
                 Edge p=list.get(i);
 
-                do{
-                    p=hMap.get(p.next);
+                while(p!=sequence.peek()){
+                    p.twin=hMap.get(p.twinS);
+                    p.line=new LineSegment(p.origin,p.twin.origin);
                     p.sequence=sequence;
                     sequence.add(p);
-                }while(p!=sequence.peek());
+                    p=hMap.get(p.next);
+                }
 
                 arrayList.add(sequence);
             }

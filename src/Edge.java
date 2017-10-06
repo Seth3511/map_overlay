@@ -6,17 +6,15 @@ public class Edge
     protected Point origin;
     protected String name;
     protected String next;
-    protected String prev;
     protected String twinS;
     protected Edge twin;
     protected LinkedList<Edge> sequence;
 
-    public Edge(String name,Point origin, String next, String prev,String twinS)
+    public Edge(String name,Point origin, String next,String twinS)
     {
         this.name=name;
         this.origin=origin;
         this.next=next;
-        this.prev=prev;
         this.twinS=twinS;
     }
 

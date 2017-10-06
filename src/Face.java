@@ -1,8 +1,15 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Face
 {
-    protected LinkedList<Edge> outerBound;
-    protected ArrayList<LinkedList<Edge>> innerBounds;
+    protected String name;
+    protected Edge outerBound;
+    protected ArrayList<Edge> innerBounds;
+
+    public Face(String name,Edge outerBound, ArrayList<Edge> innerBounds)
+    {
+        this.name=name;
+        this.innerBounds=innerBounds;
+        this.outerBound=outerBound;
+    }
 }

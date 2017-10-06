@@ -8,55 +8,78 @@ public class MapOverlayFinder
 {
     private EdgeList s1;
     private EdgeList s2;
-    private ArrayList<Edge> list;
     private double xMax;
     private double yMax;
+    private ArrayList<Face> f1;
+    private ArrayList<Face> f2;
     
-    public MapOverlayFinder(String filename)throws IOException
+    public MapOverlayFinder(String fileName1, String fileName2)throws IOException
     {
         xMax=0;
         yMax=0;
+        f1=new ArrayList<>();
+        f2=new ArrayList<>();
+        s1=construct(fileName1,f1);
+        s2=construct(fileName2,f2);
+    }
 
+    public EdgeList construct(String filename, ArrayList<Face> faceList)throws IOException
+    {
         HashMap<String,Edge> hMap=new HashMap<>();
-        list =new ArrayList<>();
+        ArrayList<Edge> list =new ArrayList<>();
         String delimiter=",";
         String line="";
         BufferedReader F=new BufferedReader(new FileReader(filename));
         F.readLine();
 
-        while((line = F.readLine()) != null)
+        while((line = F.readLine()).charAt(0)!=',')
         {
             String [] row=line.split(delimiter);
 
             Edge edge=new Edge(row[0],
                     new Point(Double.parseDouble(row[1]),Double.parseDouble(row[2])),
-                    row[3],row[4],row[5]);
+                    row[3],row[4]);
 
             list.add(edge);
             hMap.put(edge.name,edge);
-            
+
             if(Double.parseDouble(row[1])>xMax)
-               xMax=Double.parseDouble(row[1]);
+                xMax=Double.parseDouble(row[1]);
             if(Double.parseDouble(row[2])>yMax)
-               yMax=Double.parseDouble(row[2]);
+                yMax=Double.parseDouble(row[2]);
+        }
+        while((line = F.readLine()) != null)
+        {
+            String [] row=line.split(delimiter);
+            String name=row[0];
+            Edge outer=hMap.get(row[1]);
+            ArrayList<Edge> inner=new ArrayList<>();
+            for(int i=2;i<row.length;i++)
+                inner.add(hMap.get(row[i]));
+
+            faceList.add(new Face(name,outer,inner));
         }
         F.close();
 
         list.trimToSize();
-        s1=new EdgeList(list,hMap);
+        EdgeList s=new EdgeList(list,hMap);
+        return s;
     }
 
     public ArrayList<LineSegment> print()
     {
         ArrayList<LineSegment> lineList=new ArrayList<>();
-        /*ArrayList<Edge> edgeArrayList=s1.toArray();
-        for(int i=0;i<edgeArrayList.size();i++)
+
+        ArrayList<Edge> edgeArrayList=s1.toArray();
+        for(int i=0;i<edgeArrayList.size();i++) {
+            System.out.println(edgeArrayList.get(i).name);
             lineList.add(edgeArrayList.get(i).line);
-
-        return lineList;*/
-
-        for(int i=0;i<list.size();i++)
-            lineList.add(list.get(i).line);
+        }
+        edgeArrayList=s2.toArray();
+        for(int i=0;i<edgeArrayList.size();i++) {
+            System.out.println(edgeArrayList.get(i).name);
+            lineList.add(edgeArrayList.get(i).line);
+        }
 
         return lineList;
     }
