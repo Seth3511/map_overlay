@@ -15,7 +15,8 @@ public class Driver
         String filename2=kb.nextLine();
 
         MapOverlayFinder finder=new MapOverlayFinder(filename1,filename2);
-        ArrayList<LineSegment> list=finder.print();
+        ArrayList<Point> pointlist=finder.find();
+        ArrayList<LineSegment> linelist=finder.print();
 
         System.out.print("Enter scale factor: ");
         double scale = kb.nextDouble();
@@ -29,7 +30,7 @@ public class Driver
             }
         });
 
-        JApplet applet = new LineSegmentCanvas(null, list, scale, finder.getYMax());
+        JApplet applet = new LineSegmentCanvas(pointlist, linelist, scale, finder.getYMax());
         f.getContentPane().add("Center", applet);
         applet.init();
         f.pack();

@@ -65,6 +65,12 @@ public class MapOverlayFinder
         EdgeList s=new EdgeList(list,hMap);
         return s;
     }
+    
+    public ArrayList<Point> find()
+    {
+        IntersectionFinder finder=new IntersectionFinder(s1,s2);
+        return finder.find();
+    }
 
     public ArrayList<LineSegment> print()
     {

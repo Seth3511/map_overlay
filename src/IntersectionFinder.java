@@ -51,8 +51,46 @@ public class IntersectionFinder {
         }
         f.close();
     }
+    
+    public IntersectionFinder(EdgeList s1,EdgeList s2)
+    { 
+        queue = new PriorityQueue<>();
+        BST = new TreeSet<>();
+        intersections = new ArrayList<>();
+        lines = new ArrayList<>();
+        verticals = new ArrayList<>();
 
-    public ArrayList find() {
+        Event e;
+        LineSegment s;
+        Point p1, p2;
+        Double x, y;
+
+        ArrayList<Edge> list=s1.toArray();
+        
+        for(int i=0;i<list.size();i++){
+            p1 = list.get(i).line.p1;
+            p2 = list.get(i).line.p2;
+
+            s = list.get(i).line;
+            lines.add(s);
+            queue.add(new Event(p1));
+            queue.add(new Event(p2));
+        }
+        
+        list = s2.toArray();
+        for(int i=0;i<list.size();i++){
+            p1 = list.get(i).line.p1;
+            p2 = list.get(i).line.p2;
+
+            s = list.get(i).line;
+            lines.add(s);
+            queue.add(new Event(p1));
+            queue.add(new Event(p2));
+        }
+
+    }
+
+    public ArrayList <Point>find() {
         while (queue.size() > 0) {
             Event e = queue.poll();
             handleEvent(e);
