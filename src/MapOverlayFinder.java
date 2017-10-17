@@ -6,12 +6,12 @@ import java.util.HashMap;
 
 public class MapOverlayFinder
 {
-    private EdgeList s1;
-    private EdgeList s2;
-    private double xMax;
-    private double yMax;
-    private ArrayList<Face> f1;
-    private ArrayList<Face> f2;
+    protected EdgeList s1;
+    protected EdgeList s2;
+    protected double xMax;
+    protected double yMax;
+    protected ArrayList<Face> f1;
+    protected ArrayList<Face> f2;
     
     public MapOverlayFinder(String fileName1, String fileName2)throws IOException
     {
@@ -48,21 +48,20 @@ public class MapOverlayFinder
             if(Double.parseDouble(row[2])>yMax)
                 yMax=Double.parseDouble(row[2]);
         }
+        list.trimToSize();
+        EdgeList s=new EdgeList(list,hMap);
         while((line = F.readLine()) != null)
         {
             String [] row=line.split(delimiter);
             String name=row[0];
-            Edge outer=hMap.get(row[1]);
-            ArrayList<Edge> inner=new ArrayList<>();
+            Cycle outer=hMap.get(row[1]).cycle;
+            ArrayList<Cycle> inner=new ArrayList<>();
             for(int i=2;i<row.length;i++)
-                inner.add(hMap.get(row[i]));
+                inner.add(hMap.get(row[i]).cycle);
 
             faceList.add(new Face(name,outer,inner));
         }
         F.close();
-
-        list.trimToSize();
-        EdgeList s=new EdgeList(list,hMap);
         return s;
     }
     
@@ -78,12 +77,10 @@ public class MapOverlayFinder
 
         ArrayList<Edge> edgeArrayList=s1.toArray();
         for(int i=0;i<edgeArrayList.size();i++) {
-            System.out.println(edgeArrayList.get(i).name);
             lineList.add(edgeArrayList.get(i).line);
         }
         edgeArrayList=s2.toArray();
         for(int i=0;i<edgeArrayList.size();i++) {
-            System.out.println(edgeArrayList.get(i).name);
             lineList.add(edgeArrayList.get(i).line);
         }
 

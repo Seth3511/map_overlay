@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Face
 {
     protected String name;
-    protected Edge outerBound;
-    protected ArrayList<Edge> innerBounds;
+    protected Cycle outerBound;
+    protected ArrayList<Cycle> innerBounds;
 
-    public Face(String name,Edge outerBound, ArrayList<Edge> innerBounds)
+    public Face(String name,Cycle outerBound, ArrayList<Cycle> innerBounds)
     {
         this.name=name;
         this.innerBounds=innerBounds;

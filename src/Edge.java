@@ -5,16 +5,18 @@ public class Edge
     protected LineSegment line;
     protected Point origin;
     protected String name;
-    protected String next;
+    protected String nextS;
     protected String twinS;
     protected Edge twin;
-    protected LinkedList<Edge> sequence;
+    protected Edge next;
+    protected Edge prev;
+    protected Cycle cycle;
 
     public Edge(String name,Point origin, String next,String twinS)
     {
         this.name=name;
         this.origin=origin;
-        this.next=next;
+        this.nextS=next;
         this.twinS=twinS;
     }
 
