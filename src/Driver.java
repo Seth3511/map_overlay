@@ -50,14 +50,14 @@ public class Driver
         f2.setSize(new Dimension((int) Math.round(scale * finder.getXMax() + scale), (int) Math.round(scale * finder.getYMax() + scale)));
         f2.setVisible(true);
 
-        JFrame f = new JFrame("LineSegmentCanvas");
+        JFrame f = new JFrame("Output");
         f.addWindowListener(new WindowAdapter() {
 
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        JApplet applet = new LineSegmentCanvas(pointlist, linelist, scale, finder.getYMax());
+        JApplet applet = new LineSegmentCanvas(finder.f1,finder.f2,pointlist, linelist, scale, finder.getYMax());
         f.getContentPane().add("Center", applet);
         applet.init();
         f.pack();
